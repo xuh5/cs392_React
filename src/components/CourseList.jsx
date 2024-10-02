@@ -1,10 +1,10 @@
+import CourseCard from './CourseCard';
+import './CourseList.css';
 const CourseList = ({ courses }) => {
   return (
-    <div>
+    <div className="course-list">
       {Object.values(courses).map((course, index) => (
-        <p key={index}>
-          {course.term} CS {course.number}: {course.title}
-        </p>
+        <CourseCard key={index} course={course} />
       ))}
     </div>
   );
