@@ -1,10 +1,10 @@
 import CourseCard from './CourseCard';
 import './CourseList.css';
-const CourseList = ({ courses }) => {
+const CourseList = ({ courses ,selected,toggleSelected}) => {
   return (
     <div className="course-list">
-      {Object.values(courses).map((course, index) => (
-        <CourseCard key={index} course={course} />
+      {courses.map(([key, course]) => (
+        <CourseCard key={key} id={key}  course={course} selected={selected} toggleSelected={toggleSelected}/>
       ))}
     </div>
   );
