@@ -1,4 +1,10 @@
-.Course .selected{
+.Course.card.selected{
     background-color:lemonchiffon;
     color: green;
+  }
+
+  .Course.card.conflicting {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border: 1px solid red;
   }

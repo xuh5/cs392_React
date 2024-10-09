@@ -17,7 +17,10 @@ const TermPage = ({ courses }) => {
     : [...selected, item]
   );
 
-  const filteredCourses = Object.entries(courses).filter(([key, course]) => course.term === selectedTerm);
+  const filteredCourses = Object.fromEntries(
+    Object.entries(courses)
+      .filter(([key, course]) => course.term === selectedTerm)
+  );
 
   return (
     <div>
