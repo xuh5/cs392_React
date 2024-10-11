@@ -5,8 +5,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useJsonQuery } from './utilities/fetch';
 import TermPage from './components/TermPage';
-
-
+import CourseForm from './components/CourseForm'; 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 const queryClient = new QueryClient();
 const App = () => {
   const [data, isLoading, error] = useJsonQuery('https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php');
@@ -15,12 +15,17 @@ const App = () => {
   if (!data) return <h1>No course data found</h1>;
   return(  
     <QueryClientProvider client={queryClient}>
-    <div>
-      <Banner title={data.title} />
-      <div className="container">
-      <TermPage courses={data.courses} />
+      <Router> 
+        <div>
+          <Banner title={data.title} />
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<TermPage courses={data.courses} />} /> 
+              <Route path="/edit/:id" element={<CourseForm />} /> 
+            </Routes>
+          </div>
         </div>
-    </div>
+      </Router>
     </QueryClientProvider>
   );
 };

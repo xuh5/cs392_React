@@ -1,5 +1,6 @@
 import CourseCard from './CourseCard';
 import { hasConflict } from '../utilities/time_check';
+import { Link } from 'react-router-dom';
 import './CourseList.css';
 const CourseList = ({ courses ,selected,toggleSelected}) => {
   return (
