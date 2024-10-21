@@ -1,7 +1,8 @@
 import React from 'react';
 import { useFormData } from '../utilities/useFormData';
 import { useNavigate } from 'react-router-dom';
-
+import { useDbUpdate } from '../utilities/firebase';
+import { useLocation } from 'react-router-dom';
 const validateCourseData = (key, val) => {
   switch (key) {
     case 'title':
@@ -48,17 +49,31 @@ const ButtonBar = ({disabled}) => {
   );
 };
 
-const CourseForm = ({ course }) => {
+const CourseForm = () => {
+  const navigate = useNavigate();
+  const location = useLocation(); 
+  const { course, courseid } = location.state;
+
   const [state, handleChange] = useFormData(validateCourseData, {
     title: course?.title || '',
-    meetingTimes: course?.meetingTimes || ''
+    meetingTimes: course?.meets || ''
   });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (!state.errors) {
+  const [updateCourse, result] = useDbUpdate(`/courses/${courseid}`); 
+  console.log(courseid);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!state.errors ) {
+      const courseData = {
+        title: state.values.title,
+        meetingTimes: state.values.meetingTimes,
+      };
+      await updateCourse(courseData);
+      navigate('/');
     }
+
   };
 
   return (

@@ -1,5 +1,5 @@
 import './CourseCard.css';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CourseCard = ({ id, course, selected, toggleSelected, isConflicting }) => {
   const isSelected = selected.includes(id);
@@ -9,8 +9,12 @@ const CourseCard = ({ id, course, selected, toggleSelected, isConflicting }) => 
       toggleSelected(id);
     }
   };
+  const navigate = useNavigate();
+  const handleEdit = () => {
+    navigate(`/edit/${id}`, { state: { course , courseid : id } }); 
+  };
 
-  return (
+ return (
     <div
       className={`Course card m-1 p-2 ${isConflicting && !isSelected ? 'conflicting' : ''} ${isSelected ? 'selected' : ''}`}
       onClick={handleClick}
@@ -18,15 +22,12 @@ const CourseCard = ({ id, course, selected, toggleSelected, isConflicting }) => 
       <div className="card-body">
         <h5 className="card-title">{course.term} CS {course.number}</h5>
         <p className="card-text">{course.title}</p>
-        
       </div>
       <div className="card-footer">
         <small className="card-text">{course.meets}</small>
-        <Link to={`/edit/${id}`}>
-      <button className="btn btn-primary">
-        <i className="bi bi-pencil"></i> Edit
-      </button>
-    </Link>
+        <button className="btn btn-primary" onClick={handleEdit}>
+          <i className="bi bi-pencil"></i> Edit
+        </button>
       </div>
     </div>
   );
