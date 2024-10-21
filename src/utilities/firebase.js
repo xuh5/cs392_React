@@ -2,7 +2,7 @@ import { getDatabase, onValue, ref, update, get, push, set ,remove} from 'fireba
 import { useCallback, useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 
-
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAUfRDxoX9nd3GRH2ZgrgenZIPEAavMMZw",
@@ -47,4 +47,22 @@ export const useDbData = (path) => {
     }, [database, path]);
   
     return [updateData, result];
+  };
+
+  export const signInWithGoogle = () => {
+    signInWithPopup(getAuth(firebase), new GoogleAuthProvider());
+  };
+  
+  const firebaseSignOut = () => signOut(getAuth(firebase));
+  
+  export { firebaseSignOut as signOut };
+  
+  export const useAuthState = () => {
+    const [user, setUser] = useState();
+    
+    useEffect(() => (
+      onAuthStateChanged(getAuth(firebase), setUser)
+    ), []);
+  
+    return [user];
   };
