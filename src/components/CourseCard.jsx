@@ -1,5 +1,6 @@
 import './CourseCard.css';
 import { useNavigate } from 'react-router-dom';
+import { useProfile } from '../utilities/profiles';
 
 const CourseCard = ({ id, course, selected, toggleSelected, isConflicting }) => {
   const isSelected = selected.includes(id);
@@ -10,6 +11,8 @@ const CourseCard = ({ id, course, selected, toggleSelected, isConflicting }) => 
     }
   };
   const navigate = useNavigate();
+  const [{user, isAdmin}, isLoading, error] = useProfile();
+ 
   const handleEdit = () => {
     navigate(`/edit/${id}`, { state: { course , courseid : id } }); 
   };
@@ -25,9 +28,11 @@ const CourseCard = ({ id, course, selected, toggleSelected, isConflicting }) => 
       </div>
       <div className="card-footer">
         <small className="card-text">{course.meets}</small>
-        <button className="btn btn-primary" onClick={handleEdit}>
-          <i className="bi bi-pencil"></i> Edit
-        </button>
+        {isAdmin && (
+          <button className="btn btn-primary" onClick={handleEdit}>
+            <i className="bi bi-pencil"></i> Edit
+          </button>
+        )}
       </div>
     </div>
   );
